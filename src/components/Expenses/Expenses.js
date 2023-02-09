@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Card from "../UI/Card/Card";
 import ExpensesFilter from "./ExpenseFilter/ExpensesFilter";
-import ExpenseItem from "./ExpenseItem/ExpenseItem";
 import "./Expenses.css";
+import ExpensesList from "./ExpensesList/ExpensesList";
 
 function Expenses(props) {
   const [filteredYear, setFilteredYear] = useState("2020");
@@ -10,28 +10,17 @@ function Expenses(props) {
     setFilteredYear(year);
   };
 
+  const filteredExpenses = props.items.filter((expense) => {
+    return expense.date.getFullYear().toString() === filteredYear;
+  });
+
   return (
     <Card className="expenses">
       <ExpensesFilter
         selectedDropDown={DropDownHandler}
         selectedYear={filteredYear}
       />
-
-      {props.items.map((expense) => (
-        <ExpenseItem
-          // unique id
-          key={expense.id}
-          //  we add it because, when new expense is added
-          //  react just adds the div at last and updates every
-          //  element. we actually add the new element in the beginning and
-          //  prev elements next to it, but react creates div at last and
-          //  updates value so that the new element is in the begining this
-          //  just reduces the performance
-          title={expense.title}
-          date={expense.date}
-          amount={expense.amount}
-        />
-      ))}
+      <ExpensesList items={filteredExpenses} />
     </Card>
   );
 }
