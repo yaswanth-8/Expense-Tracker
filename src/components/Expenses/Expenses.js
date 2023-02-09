@@ -19,6 +19,14 @@ function Expenses(props) {
 
       {props.items.map((expense) => (
         <ExpenseItem
+          // unique id
+          key={expense.id}
+          //  we add it because, when new expense is added
+          //  react just adds the div at last and updates every
+          //  element. we actually add the new element in the beginning and
+          //  prev elements next to it, but react creates div at last and
+          //  updates value so that the new element is in the begining this
+          //  just reduces the performance
           title={expense.title}
           date={expense.date}
           amount={expense.amount}
